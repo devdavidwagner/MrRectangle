@@ -51,18 +51,18 @@ while running:
     dx = 0
     dy = 0
     if keys[pygame.K_a]:
-        dx = -5
+        dx = -7
     elif keys[pygame.K_d]:
-        dx = 5
+        dx = 7
     if keys[pygame.K_w]:
-        dy = -5
+        dy = -7
     elif keys[pygame.K_s]:
-        dy = 5
-    rectangle.updatePosition(dx, dy)
+        dy = 7
+    rectangle.updatePosition(dx, dy) 
 
     #ENEMIES AI
-    tdx += 0.05
-    tdy += 0.05
+    tdx = 5
+    tdy = 5
     triangle.updatePosition(tdx, tdy)
 
     # RENDER YOUR GAME HERE

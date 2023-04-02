@@ -49,6 +49,6 @@ class Rectangle(pygame.sprite.Sprite):
             self.rect.bottom = SCREEN_HEIGHT - 20
 
 
-        print("x" + str(self.rect.x))
-        print("y" + str(self.rect.y))
+        #print("x" + str(self.rect.x))
+        #print("y" + str(self.rect.y))
 
