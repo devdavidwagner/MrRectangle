@@ -1,6 +1,8 @@
 import pygame
 from Objects.rectangle import Rectangle
 from Objects.triangleEnemy import Triangle
+from Objects.Backgrounds.floor import Floor
+from Objects.Backgrounds.cloud import Cloud
 
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
@@ -12,20 +14,26 @@ class Game():
         self.keys =  pygame.key.get_pressed()
         # Load the background image
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-        self.background_image  = pygame.transform.scale(pygame.image.load("Game/Objects/Sprites/Background.png").convert(), (SCREEN_WIDTH, SCREEN_HEIGHT))
+        self.background_image  = pygame.transform.scale(pygame.image.load("Game/Objects/Backgrounds/BG1_Sky.png").convert(), (SCREEN_WIDTH, SCREEN_HEIGHT))
         self.background_image.convert_alpha()
 
         
 
         # Create sprites
         self.all_sprites = pygame.sprite.Group()
-        self.rectangle = Rectangle(SCREEN_WIDTH/2, SCREEN_HEIGHT - 30)
+        self.rectangle = Rectangle(SCREEN_WIDTH/2, SCREEN_HEIGHT - 50)
         self.all_sprites.add(self.rectangle)
         self.triangle = Triangle(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
         self.all_sprites.add(self.triangle)
 
         self.tdx = 0.5 
         self.tdy = 0.5
+
+        self.floor = Floor(0, SCREEN_HEIGHT - 30)
+        self.all_sprites.add(self.floor)
+
+        self.cloud = Cloud(0, 10, self.screen)
+        
         
             
         
@@ -71,6 +79,7 @@ class Game():
             # Draw game objects
             #screen.fill("WHITE")
             self.all_sprites.draw(screen)
+            self.cloud.update(self.keys)
 
             self.keys = pygame.key.get_pressed()
 

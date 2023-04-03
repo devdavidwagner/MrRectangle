@@ -55,6 +55,13 @@ newRect = pygame.Rect(SCREEN_WIDTH/ 2, 300, 100, 200)
 newRect.center = (SCREEN_WIDTH/ 2, 300)
 mrRect =  pygame.transform.scale(pygame.image.load('Game\Objects\Sprites\RectangleStillLeft.png').convert_alpha(), newRect.size)
 
+
+# Set the end event to restart the audio file when it ends
+pygame.mixer.music.set_endevent(pygame.USEREVENT)
+pygame.mixer.music.load("Game\Audio\Themes\MrRectangleMainTheme.mp3")
+pygame.mixer.music.play()
+pygame.mixer.music.set_volume(0.2)
+
 while runningMain:
     # poll for events
     # pygame.QUIT event means the user clicked X to close your window
@@ -69,6 +76,9 @@ while runningMain:
             if event.key == pygame.K_RETURN:
                 gaming = True
                 runningMain = False
+        if event.type == pygame.USEREVENT:
+            pygame.mixer.music.play()
+            print("event triggered")
 
     # fill the screen with a color to wipe away anything from last frame
     screen.fill("black")
@@ -82,6 +92,7 @@ while runningMain:
     pygame.display.flip()
 
     clock.tick(60)  # limits FPS to 60
+    
 
     pygame.time.wait(250)
     # Increment the color index and wrap around if necessary
