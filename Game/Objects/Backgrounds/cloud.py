@@ -7,7 +7,7 @@ class Cloud(pygame.sprite.Sprite):
     def __init__(self, x , y, screen):
         super().__init__()
         
-        self.image =  pygame.image.load('Game\Objects\Backgrounds\Clouds.png').convert_alpha()
+        self.image =  pygame.image.load('Game\Objects\Backgrounds\Sprites\Clouds.png').convert_alpha()
         #self.image2 =  pygame.image.load('Game\Objects\Backgrounds\Clouds.png').convert_alpha()
         #self.image3 =  pygame.image.load('Game\Objects\Backgrounds\Clouds.png').convert_alpha()
 

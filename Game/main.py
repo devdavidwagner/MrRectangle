@@ -1,5 +1,5 @@
 import pygame
-from Screens.game import Game
+from Screens.Level import Level
 
 global SCREEN_WIDTH 
 global SCREEN_HEIGHT 
@@ -59,7 +59,7 @@ mrRect =  pygame.transform.scale(pygame.image.load('Game\Objects\Sprites\Rectang
 # Set the end event to restart the audio file when it ends
 pygame.mixer.music.set_endevent(pygame.USEREVENT)
 pygame.mixer.music.load("Game\Audio\Themes\MrRectangleMainTheme.mp3")
-pygame.mixer.music.play()
+#pygame.mixer.music.play()
 pygame.mixer.music.set_volume(0.2)
 
 while runningMain:
@@ -77,7 +77,7 @@ while runningMain:
                 gaming = True
                 runningMain = False
         if event.type == pygame.USEREVENT:
-            pygame.mixer.music.play()
+           # pygame.mixer.music.play()
             print("event triggered")
 
     # fill the screen with a color to wipe away anything from last frame
@@ -99,8 +99,8 @@ while runningMain:
     color_index = (color_index + 1) % 3
 
 if gaming and running:
-    game = Game()
-    game.run(screen, clock)
+    level1 = Level()
+    level1.run(screen, clock)
     
 
 pygame.quit()

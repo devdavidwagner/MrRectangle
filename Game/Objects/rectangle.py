@@ -132,9 +132,9 @@ class Rectangle(pygame.sprite.Sprite):
 
 
         self.prevPos = position
-        print("RECTANGLE POS: " + position)
-        print("PREVIOUS POS: " + self.prevPos)
-        print("STILL " + str(still))
+        # print("RECTANGLE POS: " + position)
+        # print("PREVIOUS POS: " + self.prevPos)
+        # print("STILL " + str(still))
 
 
     def updatePosition(self, dx, dy):
@@ -143,10 +143,10 @@ class Rectangle(pygame.sprite.Sprite):
         self.rect.y += dy
 
         # Check if the sprite is going off the screen
-        if self.rect.left < 0 + 30:
-            self.rect.left = 0  + 30
-        elif self.rect.right > SCREEN_WIDTH - 30:
-            self.rect.right = SCREEN_WIDTH - 30
+        if self.rect.left < 0 + SCREEN_WIDTH /2 - self.rect.width :
+            self.rect.left = SCREEN_WIDTH / 2 - self.rect.width
+        elif self.rect.right > SCREEN_WIDTH /2 + self.rect.width :
+            self.rect.right = SCREEN_WIDTH / 2 + self.rect.width
         if self.rect.top < 0 + 30:
             self.rect.top = 0 + 30
         elif self.rect.bottom > SCREEN_HEIGHT - 30:
