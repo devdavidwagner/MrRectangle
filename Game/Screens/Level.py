@@ -7,6 +7,7 @@ from Objects.Backgrounds.BackgroundObject import BackgroundObject as BG
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 OBJECT_TRAVEL = 500
+GRAVITY = 5
 
 DIRECTORY_MOUNTAIN = 'Game\Objects\Backgrounds\Sprites\Mountain.png'
 DIRECTORY_TREE = 'Game\Objects\Backgrounds\Sprites\Tree.png'
@@ -34,7 +35,7 @@ class Level():
                 self.all_sprites.add(BackgroundObject[0])
         
 
-        self.rectangle = Rectangle(100, SCREEN_HEIGHT - 50)
+        self.rectangle = Rectangle(100, SCREEN_HEIGHT - 100)
         self.all_sprites.add(self.rectangle)
 
 
@@ -48,6 +49,8 @@ class Level():
      
         self.distanceTraveled = 0
         self.distanceOfPlayer = 0
+
+        self.running = False
       
 
         
@@ -55,15 +58,14 @@ class Level():
     
     def run(self, screen, clock):
         position = "R"
-        running = True
-        while running:
+        while self.running:
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    running = False
+                    self.running = False
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
-                        running = False
+                        self.running = False
         
             screen.blit(self.background_image, (0,0))
 
@@ -110,7 +112,8 @@ class Level():
                 position = "R"
             else:
                 self.rectangle.updateSprite(position,True)
-                self.para.update(dx)
+                
+            self.para.update(dx)
 
             if self.distanceOfPlayer < 300:
                 if self.floor.rect.right  < 0:
@@ -132,6 +135,10 @@ class Level():
             
 
         
+            if self.floor.is_collided_with(self.rectangle):
+                self.rectangle.rect.bottom = self.floor.rect.top
+            elif self.rectangle.rect.x > self.floor.rect.right and self.rectangle.rect.x > self.floorAhead.rect.right:
+                self.rectangle.rect.y += GRAVITY
                 
             self.rectangle.updatePosition(dx, dy) 
 

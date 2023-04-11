@@ -23,4 +23,5 @@ class Floor(pygame.sprite.Sprite):
     def updatePositionExact(self, position):          
         self.rect.x = position
         
-        
+    def is_collided_with(self, sprite):
+        return self.rect.colliderect(sprite.rect)

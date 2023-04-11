@@ -147,10 +147,6 @@ class Rectangle(pygame.sprite.Sprite):
             self.rect.left = SCREEN_WIDTH / 2 - self.rect.width
         elif self.rect.right > SCREEN_WIDTH /2 + self.rect.width :
             self.rect.right = SCREEN_WIDTH / 2 + self.rect.width
-        if self.rect.top < 0 + 30:
-            self.rect.top = 0 + 30
-        elif self.rect.bottom > SCREEN_HEIGHT - 30:
-            self.rect.bottom = SCREEN_HEIGHT - 30
 
 
         #print("x" + str(self.rect.x))
