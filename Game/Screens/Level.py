@@ -1,7 +1,7 @@
 import pygame
 from Objects.Rectangle import Rectangle
 from Objects.Backgrounds.Floor import Floor
-from Objects.Backgrounds.Cloud import Cloud
+from Objects.Backgrounds.Parallax import Parallax as Para
 from Objects.Backgrounds.BackgroundObject import BackgroundObject as BG
 
 SCREEN_WIDTH = 800
@@ -15,10 +15,11 @@ DIRECTORY_HOUSE = 'Game\Objects\Backgrounds\Sprites\House.png'
 class Level():
     def __init__(self):
         super().__init__()
-
+        
         self.keys =  pygame.key.get_pressed()
         # Load the background image
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+        self.para = Para(0, 10, self.screen)
         self.background_image  = pygame.transform.scale(pygame.image.load("Game\Objects\Backgrounds\Sprites\BG1_Sky.png").convert(), (SCREEN_WIDTH, SCREEN_HEIGHT))
         self.background_image.convert_alpha()
     
@@ -44,8 +45,9 @@ class Level():
         self.floorAhead = Floor(SCREEN_WIDTH, SCREEN_HEIGHT - 30,self.screen)
         self.all_sprites.add(self.floor)
         self.all_sprites.add(self.floorAhead)
-        self.cloud = Cloud(0, 10, self.screen)
+     
         self.distanceTraveled = 0
+        self.distanceOfPlayer = 0
       
 
         
@@ -65,18 +67,19 @@ class Level():
         
             screen.blit(self.background_image, (0,0))
 
-   
+       
             # Move the Rectangle sprite based on the arrow keys
             dx = 0
             dy = 0 
-           
+            
             if self.keys[pygame.K_a]:
                 dx = -7
+                self.distanceOfPlayer -= 1
                 self.rectangle.updateSprite("L")
                 self.floor.updatePosition(dx)
                 self.floorAhead.updatePosition(dx)
-                
-                
+                self.para.update(dx)
+                print(self.distanceOfPlayer)
                 for BackgroundObject in self.objects:                     
                       if self.distanceTraveled > OBJECT_TRAVEL:
                          BackgroundObject[0].updatePosition(dx)
@@ -89,10 +92,13 @@ class Level():
                 position = "L"
             elif self.keys[pygame.K_d]:
                 dx = 7
+                self.distanceOfPlayer += 1
                 self.rectangle.updateSprite("R")
                 self.floor.updatePosition(dx)
                 self.floorAhead.updatePosition(dx)
+                self.para.update(dx)
 
+                print(self.distanceOfPlayer)
                 for BackgroundObject in self.objects:         
                     if self.distanceTraveled < OBJECT_TRAVEL:          
                         BackgroundObject[0].updatePosition(dx)
@@ -104,26 +110,26 @@ class Level():
                 position = "R"
             else:
                 self.rectangle.updateSprite(position,True)
+                self.para.update(dx)
 
-            print(self.distanceTraveled)
+            if self.distanceOfPlayer < 300:
+                if self.floor.rect.right  < 0:
+                    self.floorAhead.updatePositionExact(0)
+                    self.floor.updatePositionExact(SCREEN_WIDTH)   
 
-            if self.floor.rect.right  < 0:
-                self.floorAhead.updatePositionExact(0)
-                self.floor.updatePositionExact(SCREEN_WIDTH)   
+                if self.floorAhead.rect.right < 0:
+                    self.floor.updatePositionExact(0)
+                    self.floorAhead.updatePositionExact(SCREEN_WIDTH)
 
-            if self.floorAhead.rect.right < 0:
-                self.floor.updatePositionExact(0)
-                self.floorAhead.updatePositionExact(SCREEN_WIDTH)
-
-            if self.floor.rect.left  > SCREEN_WIDTH:
-                self.floorAhead.updatePositionExact(SCREEN_WIDTH)
-                self.floor.updatePositionExact(0)
+                if self.floor.rect.left  > SCREEN_WIDTH:
+                    self.floorAhead.updatePositionExact(SCREEN_WIDTH)
+                    self.floor.updatePositionExact(0)
 
 
-            if self.floorAhead.rect.left > SCREEN_WIDTH:
-                self.floor.updatePositionExact(SCREEN_WIDTH)
-                self.floorAhead.updatePositionExact(0)
-                
+                if self.floorAhead.rect.left > SCREEN_WIDTH:
+                    self.floor.updatePositionExact(SCREEN_WIDTH)
+                    self.floorAhead.updatePositionExact(0)
+            
 
         
                 
@@ -139,7 +145,7 @@ class Level():
             # Draw game objects
             #screen.fill("WHITE")
             self.all_sprites.draw(screen)
-            self.cloud.update(self.keys)
+            
 
             self.keys = pygame.key.get_pressed()
 
